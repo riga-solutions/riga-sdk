@@ -1,0 +1,61 @@
+{
+  "name": "@riga-solutions/sdk",
+  "version": "0.3.0",
+  "description": "TypeScript SDK for the RIGA substrate. Typed client over the public REST API (/api/v1) — records, datarooms, tasks, audit export — with built-in retry, error class hierarchy, and inline chain verification via @val-protocol/chain-verifier.",
+  "license": "Apache-2.0",
+  "author": "RIGA <hello@riga.solutions>",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "keywords": [
+    "riga",
+    "sdk",
+    "client",
+    "rest",
+    "records",
+    "audit",
+    "hash-chain"
+  ],
+  "homepage": "https://github.com/riga-solutions/riga-sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/riga-solutions/riga-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/riga-solutions/riga-sdk/issues"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type:'commonjs'}))\"",
+    "type-check": "tsc -p tsconfig.json --noEmit",
+    "prepublishOnly": "npm run build && ./scripts/verify-esm-extensions.sh",
+    "generate": "openapi-ts -i ./openapi.json -o src/generated -c @hey-api/client-fetch && node scripts/patch-generated-esm.mjs"
+  },
+  "dependencies": {
+    "@val-protocol/chain-verifier": "^0.2.0"
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "^0.98.2",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
