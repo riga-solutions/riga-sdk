@@ -1,0 +1,20 @@
+{
+  "__doc": [
+    "Synthetic example-UUID registry — the publish-surface leak gate's allowlist.",
+    "Every real-shape UUID in this repository MUST be listed here, or",
+    "scripts/verify-example-ids.mjs fails CI and prepublish. To add an example id:",
+    "mint a fresh random UUID (uuidgen), confirm it references no real system,",
+    "register it with a one-line use note. NEVER copy an identifier out of a real",
+    "request, response, webhook delivery, or operator fixture flow. This repo was",
+    "recreated 2026-06-11 from a swept snapshot precisely so its history starts",
+    "clean — keep it that way."
+  ],
+  "ids": {
+    "e33143e3-7a34-42b6-98f6-e2576d988de4": "dataroom example — README quick start",
+    "c5314aa0-c2ce-4d3f-a373-8703cedeb10e": "authored_by_party example — README quick start",
+    "550e8400-e29b-41d4-a716-446655440000": "RFC 4122 textbook example UUID (openapi.json examples)",
+    "550e8400-e29b-41d4-a716-446655440001": "RFC 4122 textbook example UUID, incremented (openapi.json examples)",
+    "a1b2c3d4-e5f6-7890-abcd-ef1234567890": "obvious-synthetic hex-run placeholder (openapi.json examples)",
+    "f47ac10b-58cc-4372-a567-0e02b2c3d479": "classic documentation example UUID (openapi.json examples)"
+  }
+}
