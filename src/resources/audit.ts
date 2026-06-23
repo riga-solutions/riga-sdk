@@ -93,7 +93,7 @@ export class AuditExportStream implements AsyncIterable<AuditRow> {
    * with the row count.
    *
    * Audit-stream affordance: this is the load-bearing developer-experience hook
-   * for the bâtonnier-replay narrative. The integrator pulls + verifies in one
+   * for offline audit-chain replay. The integrator pulls + verifies in one
    * call, no additional setup.
    */
   async verify(): Promise<VerifyResult> {
