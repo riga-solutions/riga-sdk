@@ -100,7 +100,7 @@ V1 does **not** auto-refresh OAuth tokens — the backend does not currently sup
 | `documents` | `list(roomId, folderId?)` | `GET /api/v1/datarooms/:roomId/documents` | 0.3.0. |
 | `tasks` | `propose(params)` | `POST /api/v1/tasks` | `Idempotency-Key` auto-set. |
 | `tasks` | `list({dataroom_id?, status?, type?, limit?, cursor?})` | `GET /api/v1/tasks` | Omit `dataroom_id` for a cross-dataroom sweep. |
-| `audit` | `export(dataroomId, {sinceSequenceNumber?, limit?})` | `GET /api/v1/datarooms/:id/audit/export` | Returns `AuditExportStream` (AsyncIterable + `.verify()` = pass-1 integrity replay). For the full VAL passes (lineage / scope / grounding / delegator authority), import `verifyValChain` from the bundled `@val-protocol/chain-verifier` (0.2.x as of SDK 0.3.0) and feed it the same rows. |
+| `audit` | `export(dataroomId, {sinceSequenceNumber?, limit?})` | `GET /api/v1/datarooms/:id/audit/export` | Returns `AuditExportStream` (AsyncIterable + `.verify()` = pass-1 integrity replay). For the full VAL passes (lineage / scope / grounding / delegator authority), `await verifyValChain(...)` from the bundled `@val-protocol/chain-verifier` (0.6.x as of SDK 0.4.0 — the verifier is async and browser-runnable) and feed it the same rows. |
 
 ## Error handling
 

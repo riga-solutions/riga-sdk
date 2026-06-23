@@ -108,7 +108,7 @@ export class AuditExportStream implements AsyncIterable<AuditRow> {
         chain_hash: row.chain_hash,
       });
     }
-    const result = verifyChain(chainRows);
+    const result = await verifyChain(chainRows);
     return {
       ok: result.ok,
       firstBadIndex: result.firstBadIndex,

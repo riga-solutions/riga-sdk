@@ -3,6 +3,23 @@
 All notable changes to `@riga-solutions/sdk` are documented here. This project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## 0.4.0
+
+### Fixed
+
+- **`audit` stream `.verify()` now `await`s `verifyChain`.** With the verifier's async API
+  (`@val-protocol/chain-verifier` ≥ 0.5.0) an un-awaited call returns a `Promise`, so `result.ok`
+  was `undefined` — a silent verification failure (verify never reports a real verdict). Now
+  correctly awaited.
+
+### Changed
+
+- **Bumped `@val-protocol/chain-verifier` to `^0.6.0`** (from `^0.2.0`). The verifier is now
+  **isomorphic** (Web Crypto, browser-runnable) and its API became **async** at 0.5.0; `^0.2.0`
+  (caret-pinned to 0.2.x on a 0.x range) could not resolve it. The SDK's public API and the
+  `VerifyResult` shape (`{ ok, firstBadIndex, reason, rowsVerified }`) are unchanged; `^0.6.0`
+  also brings the 0.5.0 verdict checks and 0.6.0 `rootSubject` for any direct verifier use.
+
 ## 0.3.0
 
 ### Added — dataroom / folder / document resources (B.6)
