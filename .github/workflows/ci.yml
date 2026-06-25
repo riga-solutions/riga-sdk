@@ -16,7 +16,7 @@ jobs:
       - name: Example-id leak gate
         run: node scripts/verify-example-ids.mjs
       - name: Install
-        run: npm install
+        run: npm ci # lockfile-enforced; the artifact built/tested matches the committed lock (OWASP MCP04)
       - name: Build
         run: npm run build
       - name: Type-check
