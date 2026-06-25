@@ -49,7 +49,7 @@
     "@val-protocol/chain-verifier": "^0.6.0"
   },
   "devDependencies": {
-    "@hey-api/openapi-ts": "^0.98.2",
+    "@hey-api/openapi-ts": "^0.99.0",
     "typescript": "^5.0.0"
   },
   "engines": {
