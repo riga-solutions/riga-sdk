@@ -44,7 +44,7 @@ export type {
 export type { RecordAppendParams, RecordAttestParams } from './resources/records.js';
 export type { DataroomCreateParams, DataroomListParams } from './resources/datarooms.js';
 export type { FolderCreateParams } from './resources/folders.js';
-export type { UploadFile, UploadHandle, BatchResult } from './resources/documents.js';
+export type { UploadFile, UploadHandle, BatchResult, EvidenceBundle } from './resources/documents.js';
 export type { TaskProposeParams, TaskListParams } from './resources/tasks.js';
 export type { AuditExportParams } from './resources/audit.js';
 export { AuditExportStream } from './resources/audit.js';

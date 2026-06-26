@@ -8,12 +8,14 @@
  *   client.documents.upload(roomId, file)        — one file, async-eventual
  *   client.documents.uploadBatch(roomId, files)  — client-side fan-out (bulk)
  *   client.documents.list(roomId, folderId?)     — agent-principal, can_view-scoped
+ *   client.documents.evidenceBundle(id)          — bytes-binding disclosure (ADR 0061)
  *
  * Uploads are INTEGRATOR-principal: the document is recorded against the human
  * who minted the key (the substrate has no agent-attribution slot for documents).
  */
 
 import {
+  documentsV1ControllerEvidenceBundle,
   roomDocumentsV1ControllerConfirm,
   roomDocumentsV1ControllerList,
   roomDocumentsV1ControllerPresign,
@@ -46,6 +48,22 @@ export interface UploadHandle {
 export type BatchResult =
   | { ok: true; handle: UploadHandle }
   | { ok: false; filename: string; error: Error };
+
+/**
+ * The VAL bytes-binding evidence bundle (ADR 0061) — the disclosure an offline
+ * auditor feeds to the verifier's Pass 6 to prove the chain content-address
+ * binds to THIS document, byte-for-byte, with zero RIGA trust.
+ */
+export interface EvidenceBundle {
+  /** Base64 of the literal stored document bytes. Independently hash these — never trust a RIGA-supplied digest. */
+  document_bytes_base64: string;
+  /** The opening nonce for the commitment — disclosed ONLY here, never on the chain (not a cross-tenant oracle). */
+  bytes_commitment_nonce: string;
+  /** The on-chain commitment value this bundle lets you re-derive: SHA-256("val.bytes-commitment.v1"‖0x00‖nonce‖SHA-256(bytes)). */
+  bytes_commitment: string;
+  /** The chain content-address (DEK-keyed HMAC-SHA256 — confidentiality/dedup, NOT the bytes proof). */
+  content_hash: string;
+}
 
 export class DocumentsResource {
   constructor(private readonly ctx: ClientContext) {}
@@ -126,6 +144,27 @@ export class DocumentsResource {
       Array.from({ length: Math.min(concurrency, files.length) }, () => worker()),
     );
     return results;
+  }
+
+  /**
+   * Fetch the VAL bytes-binding evidence bundle for a document (ADR 0061).
+   *
+   * Owner/auditor-grade: requires FGA `can_verify_audit_chain` and the
+   * `audit.read` scope — a `cap_user` agent/integrator key is refused (403).
+   * Pair it with the chain export (`client.audit.export(roomId).verify()` for
+   * the core passes, or the full-workspace `/audit/chain` NDJSON) and feed the
+   * disclosure to the published verifier's Pass 6 —
+   * `verifyValChain(rows, { bytesDisclosures: [{ event_hash, nonce, bytes }] })`
+   * in `@val-protocol/chain-verifier` >= 0.7.0 — to prove `bytesBinding: bound`
+   * offline. Independently hash `document_bytes_base64`; do not trust
+   * `content_hash` as the bytes proof (it is a DEK-keyed HMAC).
+   */
+  async evidenceBundle(documentId: string): Promise<EvidenceBundle> {
+    return callApi<EvidenceBundle>(
+      this.ctx,
+      documentsV1ControllerEvidenceBundle as unknown as GeneratedFn,
+      { path: { id: documentId } },
+    );
   }
 
   /** List documents the caller can view (optionally scoped to one folder). */

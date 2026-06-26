@@ -4,6 +4,17 @@ export type ClientOptions = {
     baseUrl: string;
 };
 
+export type ExternalResourceDto = {
+    /**
+     * Opaque source namespace "source.entity" (e.g. "superpdp.invoice", "odoo.account.move").
+     */
+    type: string;
+    /**
+     * Resource id(s) in that source.
+     */
+    ids: Array<string>;
+};
+
 export type RecordHandoffDto = {
     /**
      * Task type (must exist in task_type_catalog).
@@ -27,9 +38,9 @@ export type RecordHandoffDto = {
 export type AppendRecordV1Dto = {
     dataroom_id: string;
     /**
-     * The agent party authoring the record.
+     * The agent party authoring the record. Optional — defaults to the authenticated agent (resolved server-side).
      */
-    authored_by_party: string;
+    authored_by_party?: string;
     content: string;
     /**
      * Defaults to 'internal_only'.
@@ -43,14 +54,14 @@ export type AppendRecordV1Dto = {
     /**
      * SHA-256 hex of the canonical method.
      */
-    method_hash: string;
-    method_version: string;
-    model_id: string;
-    model_provider: string;
+    method_hash?: string;
+    method_version?: string;
+    model_id?: string;
+    model_provider?: string;
     /**
      * SHA-256 hex of the inputs.
      */
-    inputs_hash: string;
+    inputs_hash?: string;
     inputs_pseudonymized?: boolean;
     /**
      * Defaults to 'declarative'.
@@ -59,6 +70,7 @@ export type AppendRecordV1Dto = {
     event_details?: {
         [key: string]: unknown;
     };
+    external_resource?: ExternalResourceDto;
     handoff?: RecordHandoffDto;
 };
 
@@ -68,7 +80,10 @@ export type AttestRecordV1Dto = {
      * attestation.* or acknowledgement.* record type.
      */
     type: string;
-    authored_by_party: string;
+    /**
+     * Optional — defaults to the authenticated agent (resolved server-side).
+     */
+    authored_by_party?: string;
     content: string;
     visibility_kind?: string;
     document_refs?: Array<string>;
@@ -91,6 +106,7 @@ export type AttestRecordV1Dto = {
      * 64-hex content_hash values (accuracy grounding, claim #23).
      */
     grounded_document_hashes?: Array<string>;
+    external_resource?: ExternalResourceDto;
     handoff?: RecordHandoffDto;
 };
 
@@ -648,6 +664,163 @@ export type AuditV1ControllerExportData = {
 export type AuditV1ControllerExportResponses = {
     /**
      * NDJSON chain export (streamed).
+     */
+    200: unknown;
+};
+
+export type AuditV1ControllerChainData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{id}/audit/chain';
+};
+
+export type AuditV1ControllerChainResponses = {
+    /**
+     * Full-chain NDJSON (streamed).
+     */
+    200: unknown;
+    /**
+     * Chain too large for sync — async export job accepted.
+     */
+    202: unknown;
+};
+
+export type AuditV1ControllerChainJobData = {
+    body?: never;
+    path: {
+        id: string;
+        jobId: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{id}/audit/chain/jobs/{jobId}';
+};
+
+export type AuditV1ControllerChainJobErrors = {
+    /**
+     * No such export job for this dataroom.
+     */
+    404: unknown;
+};
+
+export type AuditV1ControllerChainJobResponses = {
+    /**
+     * Job status (+ download_url when complete).
+     */
+    200: unknown;
+};
+
+export type AuditV1ControllerDeliveriesData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query: {
+        event_id: string;
+    };
+    url: '/api/v1/datarooms/{id}/audit/deliveries';
+};
+
+export type AuditV1ControllerDeliveriesResponses = {
+    /**
+     * Deliveries for the event.
+     */
+    200: unknown;
+};
+
+export type AuditV1ControllerEventsData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: {
+        limit?: number;
+        cursor?: string;
+        direction?: 'asc' | 'desc';
+    };
+    url: '/api/v1/datarooms/{id}/audit/events';
+};
+
+export type AuditV1ControllerEventsResponses = {
+    /**
+     * Chain events page.
+     */
+    200: unknown;
+};
+
+export type AuditV1ControllerEventByHashData = {
+    body?: never;
+    path: {
+        id: string;
+        chainHash: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{id}/audit/events/by-hash/{chainHash}';
+};
+
+export type AuditV1ControllerEventByHashErrors = {
+    /**
+     * Not found or not in this dataroom.
+     */
+    404: unknown;
+};
+
+export type AuditV1ControllerEventByHashResponses = {
+    /**
+     * Chain event.
+     */
+    200: unknown;
+};
+
+export type AuditV1ControllerEventData = {
+    body?: never;
+    path: {
+        id: string;
+        eventId: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{id}/audit/events/{eventId}';
+};
+
+export type AuditV1ControllerEventErrors = {
+    /**
+     * Not found or not in this dataroom.
+     */
+    404: unknown;
+};
+
+export type AuditV1ControllerEventResponses = {
+    /**
+     * Chain event.
+     */
+    200: unknown;
+};
+
+export type DocumentsV1ControllerEvidenceBundleData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/documents/{id}/evidence-bundle';
+};
+
+export type DocumentsV1ControllerEvidenceBundleErrors = {
+    /**
+     * Owner/auditor capability required.
+     */
+    403: unknown;
+    /**
+     * Document not found or soft-deleted.
+     */
+    404: unknown;
+};
+
+export type DocumentsV1ControllerEvidenceBundleResponses = {
+    /**
+     * Evidence bundle.
      */
     200: unknown;
 };

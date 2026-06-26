@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client/index.js';
 import { client } from './client.gen.js';
-import type { AuditV1ControllerExportData, AuditV1ControllerExportResponses, DataroomsV1ControllerCreateData, DataroomsV1ControllerCreateErrors, DataroomsV1ControllerCreateResponses, DataroomsV1ControllerGetData, DataroomsV1ControllerGetErrors, DataroomsV1ControllerGetResponses, DataroomsV1ControllerListData, DataroomsV1ControllerListResponses, DocumentsV1ControllerReadData, DocumentsV1ControllerReadErrors, DocumentsV1ControllerReadResponses, FoldersV1ControllerCreateData, FoldersV1ControllerCreateErrors, FoldersV1ControllerCreateResponses, FoldersV1ControllerListData, FoldersV1ControllerListResponses, QaV1ControllerAnswerData, QaV1ControllerAnswerResponses, RecordsV1ControllerAppendData, RecordsV1ControllerAppendErrors, RecordsV1ControllerAppendResponses, RecordsV1ControllerAttestData, RecordsV1ControllerAttestResponses, RecordsV1ControllerReadData, RecordsV1ControllerReadErrors, RecordsV1ControllerReadResponses, RoomDocumentsV1ControllerConfirmData, RoomDocumentsV1ControllerConfirmErrors, RoomDocumentsV1ControllerConfirmResponses, RoomDocumentsV1ControllerListData, RoomDocumentsV1ControllerListResponses, RoomDocumentsV1ControllerPresignData, RoomDocumentsV1ControllerPresignErrors, RoomDocumentsV1ControllerPresignResponses, SendsV1ControllerCreateData, SendsV1ControllerCreateErrors, SendsV1ControllerCreateResponses, SendsV1ControllerEventsData, SendsV1ControllerEventsResponses, SendsV1ControllerGetData, SendsV1ControllerGetResponses, SendsV1ControllerRevokeData, SendsV1ControllerRevokeResponses, TasksV1ControllerListData, TasksV1ControllerListResponses, TasksV1ControllerProposeData, TasksV1ControllerProposeResponses, UsageV1ControllerUsageData, UsageV1ControllerUsageErrors, UsageV1ControllerUsageResponses } from './types.gen.js';
+import type { AuditV1ControllerChainData, AuditV1ControllerChainJobData, AuditV1ControllerChainJobErrors, AuditV1ControllerChainJobResponses, AuditV1ControllerChainResponses, AuditV1ControllerDeliveriesData, AuditV1ControllerDeliveriesResponses, AuditV1ControllerEventByHashData, AuditV1ControllerEventByHashErrors, AuditV1ControllerEventByHashResponses, AuditV1ControllerEventData, AuditV1ControllerEventErrors, AuditV1ControllerEventResponses, AuditV1ControllerEventsData, AuditV1ControllerEventsResponses, AuditV1ControllerExportData, AuditV1ControllerExportResponses, DataroomsV1ControllerCreateData, DataroomsV1ControllerCreateErrors, DataroomsV1ControllerCreateResponses, DataroomsV1ControllerGetData, DataroomsV1ControllerGetErrors, DataroomsV1ControllerGetResponses, DataroomsV1ControllerListData, DataroomsV1ControllerListResponses, DocumentsV1ControllerEvidenceBundleData, DocumentsV1ControllerEvidenceBundleErrors, DocumentsV1ControllerEvidenceBundleResponses, DocumentsV1ControllerReadData, DocumentsV1ControllerReadErrors, DocumentsV1ControllerReadResponses, FoldersV1ControllerCreateData, FoldersV1ControllerCreateErrors, FoldersV1ControllerCreateResponses, FoldersV1ControllerListData, FoldersV1ControllerListResponses, QaV1ControllerAnswerData, QaV1ControllerAnswerResponses, RecordsV1ControllerAppendData, RecordsV1ControllerAppendErrors, RecordsV1ControllerAppendResponses, RecordsV1ControllerAttestData, RecordsV1ControllerAttestResponses, RecordsV1ControllerReadData, RecordsV1ControllerReadErrors, RecordsV1ControllerReadResponses, RoomDocumentsV1ControllerConfirmData, RoomDocumentsV1ControllerConfirmErrors, RoomDocumentsV1ControllerConfirmResponses, RoomDocumentsV1ControllerListData, RoomDocumentsV1ControllerListResponses, RoomDocumentsV1ControllerPresignData, RoomDocumentsV1ControllerPresignErrors, RoomDocumentsV1ControllerPresignResponses, SendsV1ControllerCreateData, SendsV1ControllerCreateErrors, SendsV1ControllerCreateResponses, SendsV1ControllerEventsData, SendsV1ControllerEventsResponses, SendsV1ControllerGetData, SendsV1ControllerGetResponses, SendsV1ControllerRevokeData, SendsV1ControllerRevokeResponses, TasksV1ControllerListData, TasksV1ControllerListResponses, TasksV1ControllerProposeData, TasksV1ControllerProposeResponses, UsageV1ControllerUsageData, UsageV1ControllerUsageErrors, UsageV1ControllerUsageResponses } from './types.gen.js';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -198,6 +198,83 @@ export const dataroomsV1ControllerGet = <ThrowOnError extends boolean = false>(o
 export const auditV1ControllerExport = <ThrowOnError extends boolean = false>(options: Options<AuditV1ControllerExportData, ThrowOnError>): RequestResult<AuditV1ControllerExportResponses, unknown, ThrowOnError> => (options.client ?? client).get<AuditV1ControllerExportResponses, unknown, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/datarooms/{id}/audit/export',
+    ...options
+});
+
+/**
+ * Export the FULL workspace chain as verifier-input NDJSON (snapshot-consistent)
+ *
+ * The whole ordered chain (seq #1→head) in the published chain-verifier input format — drop the file straight into @val-protocol/chain-verifier. Snapshot-pinned head on X-Chain-Head. Sync-streamed; very large chains return 202 + an async BullMQ→S3 download job. Scope: audit.read.
+ */
+export const auditV1ControllerChain = <ThrowOnError extends boolean = false>(options: Options<AuditV1ControllerChainData, ThrowOnError>): RequestResult<AuditV1ControllerChainResponses, unknown, ThrowOnError> => (options.client ?? client).get<AuditV1ControllerChainResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{id}/audit/chain',
+    ...options
+});
+
+/**
+ * Poll an async full-chain export job
+ *
+ * Status of an async (BullMQ→S3) chain export queued by GET …/audit/chain when the chain exceeds the sync ceiling; returns a signed S3 download URL when complete. FGA: can_verify_audit_chain. Scope: audit.read.
+ */
+export const auditV1ControllerChainJob = <ThrowOnError extends boolean = false>(options: Options<AuditV1ControllerChainJobData, ThrowOnError>): RequestResult<AuditV1ControllerChainJobResponses, AuditV1ControllerChainJobErrors, ThrowOnError> => (options.client ?? client).get<AuditV1ControllerChainJobResponses, AuditV1ControllerChainJobErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{id}/audit/chain/jobs/{jobId}',
+    ...options
+});
+
+/**
+ * List webhook deliveries for a chain event
+ *
+ * Webhook deliveries triggered by one chain event (the dev-console Deliveries tab dogfoods this same route). FGA: can_verify_audit_chain. Scope: audit.read.
+ */
+export const auditV1ControllerDeliveries = <ThrowOnError extends boolean = false>(options: Options<AuditV1ControllerDeliveriesData, ThrowOnError>): RequestResult<AuditV1ControllerDeliveriesResponses, unknown, ThrowOnError> => (options.client ?? client).get<AuditV1ControllerDeliveriesResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{id}/audit/deliveries',
+    ...options
+});
+
+/**
+ * List chain events (keyset-paginated, newest-first)
+ *
+ * Verifier-compatible chain rows for a dataroom, keyset-paginated on sequence_number (O(page) on long chains). direction=desc (default) is newest-first. The dev-console records browser dogfoods this route. FGA: can_verify_audit_chain. Scope: audit.read.
+ */
+export const auditV1ControllerEvents = <ThrowOnError extends boolean = false>(options: Options<AuditV1ControllerEventsData, ThrowOnError>): RequestResult<AuditV1ControllerEventsResponses, unknown, ThrowOnError> => (options.client ?? client).get<AuditV1ControllerEventsResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{id}/audit/events',
+    ...options
+});
+
+/**
+ * Get one chain event by its block hash
+ *
+ * Resolve a block hash to its verifier-compatible chain row — the lineage primitive the record inspector uses to walk a MUTATION/ACCESS block to its ASSIGNMENT root (parent_assignment_hash). Read-only over existing rows. FGA: can_verify_audit_chain. Scope: audit.read.
+ */
+export const auditV1ControllerEventByHash = <ThrowOnError extends boolean = false>(options: Options<AuditV1ControllerEventByHashData, ThrowOnError>): RequestResult<AuditV1ControllerEventByHashResponses, AuditV1ControllerEventByHashErrors, ThrowOnError> => (options.client ?? client).get<AuditV1ControllerEventByHashResponses, AuditV1ControllerEventByHashErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{id}/audit/events/by-hash/{chainHash}',
+    ...options
+});
+
+/**
+ * Get one chain event by id
+ *
+ * A single verifier-compatible chain row (the O(1) primitive the record inspector dogfoods). FGA: can_verify_audit_chain. Scope: audit.read.
+ */
+export const auditV1ControllerEvent = <ThrowOnError extends boolean = false>(options: Options<AuditV1ControllerEventData, ThrowOnError>): RequestResult<AuditV1ControllerEventResponses, AuditV1ControllerEventErrors, ThrowOnError> => (options.client ?? client).get<AuditV1ControllerEventResponses, AuditV1ControllerEventErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{id}/audit/events/{eventId}',
+    ...options
+});
+
+/**
+ * VAL bytes-binding evidence bundle (ADR 0061) — owner/auditor only
+ *
+ * Returns { document_bytes_base64, bytes_commitment_nonce, bytes_commitment, content_hash } — the disclosure the offline verifier Pass 6 consumes to prove the chain content-address binds to THIS document (bytesBinding: bound), with zero operator trust. Pair it with GET /v1/datarooms/:id/audit/chain. Owner/auditor-grade (FGA can_verify_audit_chain) — a cap_user agent/integrator key is refused. The opening nonce is disclosed only here, never on the chain. Scope: audit.read.
+ */
+export const documentsV1ControllerEvidenceBundle = <ThrowOnError extends boolean = false>(options: Options<DocumentsV1ControllerEvidenceBundleData, ThrowOnError>): RequestResult<DocumentsV1ControllerEvidenceBundleResponses, DocumentsV1ControllerEvidenceBundleErrors, ThrowOnError> => (options.client ?? client).get<DocumentsV1ControllerEvidenceBundleResponses, DocumentsV1ControllerEvidenceBundleErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/documents/{id}/evidence-bundle',
     ...options
 });
 

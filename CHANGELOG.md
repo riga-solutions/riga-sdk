@@ -3,6 +3,26 @@
 All notable changes to `@riga-solutions/sdk` are documented here. This project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## 0.5.0
+
+### Added
+
+- **`documents.evidenceBundle(id)`** — fetches the VAL bytes-binding evidence bundle
+  (ADR 0061): `{ document_bytes_base64, bytes_commitment_nonce, bytes_commitment, content_hash }`.
+  Owner/auditor-grade (FGA `can_verify_audit_chain`, scope `audit.read`). Pair it with a chain
+  export and feed `{ event_hash, nonce, bytes }` to `verifyValChain(rows, { bytesDisclosures })`
+  (Pass 6) to prove `bytesBinding: bound` offline, with zero RIGA trust. New exported type
+  `EvidenceBundle`.
+
+### Changed
+
+- **`@val-protocol/chain-verifier` bumped `^0.6.0` → `^0.7.0`** — Pass 6 (bytes-binding) lives in
+  0.7.0. On a `0.x` version `^0.6.0` resolves to `>=0.6.0 <0.7.0`, so the bump is required for the
+  verifier's bytes-binding rail to be reachable transitively.
+- Regenerated `src/generated` from the current backend OpenAPI — the SDK now tracks the live
+  `/api/v1` surface (adds the audit `chain` / `events` / `deliveries` generated clients, available
+  for future resource methods).
+
 ## 0.4.0
 
 ### Fixed

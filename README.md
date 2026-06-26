@@ -98,9 +98,10 @@ V1 does **not** auto-refresh OAuth tokens — the backend does not currently sup
 | `documents` | `upload(roomId, file)` | `POST …/documents/presign` → S3 `PUT` → `POST …/documents/confirm` | 0.3.0. Full ingest orchestration in one call; returns a handle at confirm (the `document.uploaded` chain event commits asynchronously). |
 | `documents` | `uploadBatch(roomId, files)` | same, fanned out client-side | 0.3.0. Parallel direct-to-S3; per-file success/failure in the result. |
 | `documents` | `list(roomId, folderId?)` | `GET /api/v1/datarooms/:roomId/documents` | 0.3.0. |
+| `documents` | `evidenceBundle(id)` | `GET /api/v1/documents/:id/evidence-bundle` | 0.5.0. VAL bytes-binding disclosure (ADR 0061): `{ document_bytes_base64, bytes_commitment_nonce, bytes_commitment, content_hash }`. Owner/auditor-grade (FGA `can_verify_audit_chain`, scope `audit.read`). Independently hash the bytes, then re-derive the on-chain commitment via `verifyValChain(rows, { bytesDisclosures })` (Pass 6) → `bytesBinding: bound`, zero RIGA trust. |
 | `tasks` | `propose(params)` | `POST /api/v1/tasks` | `Idempotency-Key` auto-set. |
 | `tasks` | `list({dataroom_id?, status?, type?, limit?, cursor?})` | `GET /api/v1/tasks` | Omit `dataroom_id` for a cross-dataroom sweep. |
-| `audit` | `export(dataroomId, {sinceSequenceNumber?, limit?})` | `GET /api/v1/datarooms/:id/audit/export` | Returns `AuditExportStream` (AsyncIterable + `.verify()` = pass-1 integrity replay). For the full VAL passes (lineage / scope / grounding / delegator authority), `await verifyValChain(...)` from the bundled `@val-protocol/chain-verifier` (0.6.x as of SDK 0.4.0 — the verifier is async and browser-runnable) and feed it the same rows. |
+| `audit` | `export(dataroomId, {sinceSequenceNumber?, limit?})` | `GET /api/v1/datarooms/:id/audit/export` | Returns `AuditExportStream` (AsyncIterable + `.verify()` = pass-1 integrity replay). For the full VAL passes (lineage / scope / grounding / delegator authority), `await verifyValChain(...)` from the bundled `@val-protocol/chain-verifier` (0.7.x as of SDK 0.5.0 — async, browser-runnable, and including Pass 6 bytes-binding) and feed it the same rows. |
 
 ## Error handling
 
