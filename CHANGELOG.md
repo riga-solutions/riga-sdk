@@ -3,6 +3,20 @@
 All notable changes to `@riga-solutions/sdk` are documented here. This project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## 0.6.0
+
+### Added
+
+- `audit.export(...).verify({ anchorTrust })` — opt-in VAL §8 Pass 4 (external anchor). When the caller
+  supplies a resolved TSA trust anchor (`{ tsaCertSpkis }`), `verify` additionally runs the full verifier
+  and surfaces `anchorBinding` (`verified` / `mismatch` / `not_evaluated`) and `anchors[]` (TSA-attested
+  `genTime` + covered range). Default `verify()` is unchanged (integrity-only, backward compatible).
+
+### Changed
+
+- Bump `@val-protocol/chain-verifier` `^0.7.0` → `^0.9.0` (Pass 4 external-anchor + the additive Profile-C
+  QES verdict seam; the SDK uses `verifyValChain` with `anchorTrust`).
+
 ## 0.5.0
 
 ### Added

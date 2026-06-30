@@ -18,7 +18,7 @@
  * calling both is safe and produces the same row sequence.
  */
 
-import { verifyChain, ChainRow } from '@val-protocol/chain-verifier';
+import { verifyChain, verifyValChain, ChainRow } from '@val-protocol/chain-verifier';
 import { ClientContext, rawNdjson } from '../http.js';
 import { AuditRow, VerifyResult } from '../types.js';
 
@@ -96,7 +96,7 @@ export class AuditExportStream implements AsyncIterable<AuditRow> {
    * for offline audit-chain replay. The integrator pulls + verifies in one
    * call, no additional setup.
    */
-  async verify(): Promise<VerifyResult> {
+  async verify(options?: { anchorTrust?: { tsaCertSpkis: string[] } }): Promise<VerifyResult> {
     const chainRows: ChainRow[] = [];
     for await (const row of this) {
       chainRows.push({
@@ -109,12 +109,21 @@ export class AuditExportStream implements AsyncIterable<AuditRow> {
       });
     }
     const result = await verifyChain(chainRows);
-    return {
+    const out: VerifyResult = {
       ok: result.ok,
       firstBadIndex: result.firstBadIndex,
       reason: result.reason,
       rowsVerified: chainRows.length,
     };
+    // VAL §8 Pass 4 — opt-in. When the caller supplies a resolved TSA trust anchor, additionally run
+    // the full verifier to surface the external-anchor verdict (the integrity ok/firstBadIndex above
+    // are unchanged for backward compatibility).
+    if (options?.anchorTrust) {
+      const val = await verifyValChain(chainRows, { anchorTrust: options.anchorTrust });
+      out.anchorBinding = val.anchorBinding;
+      out.anchors = val.anchors;
+    }
+    return out;
   }
 }
 

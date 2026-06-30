@@ -142,4 +142,12 @@ export interface VerifyResult {
   firstBadIndex: number | null;
   reason: string | null;
   rowsVerified: number;
+  /**
+   * VAL §8 Pass 4 (external anchor) — present only when `verify({ anchorTrust })` is supplied.
+   * `verified` = every ANCHOR block's checkpoint root + RFC 3161 token verified against the pinned
+   * TSA cert(s); `mismatch` = one failed; `not_evaluated` = no ANCHOR block or no trust anchor.
+   */
+  anchorBinding?: 'verified' | 'mismatch' | 'not_evaluated';
+  /** Per verified ANCHOR: the TSA-attested `genTime` (ISO 8601) and the covered block range. */
+  anchors?: Array<{ sequenceNumber: string; genTime: string; covered_range: { from_sequence: number; to_sequence: number } }>;
 }
