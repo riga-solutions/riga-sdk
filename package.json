@@ -46,7 +46,7 @@
     "generate": "openapi-ts -i ./openapi.json -o src/generated -c @hey-api/client-fetch && node scripts/patch-generated-esm.mjs"
   },
   "dependencies": {
-    "@val-protocol/chain-verifier": "^0.9.0"
+    "@val-protocol/chain-verifier": "^0.10.0"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.98.2",
