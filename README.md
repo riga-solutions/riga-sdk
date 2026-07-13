@@ -109,6 +109,16 @@ V1 does **not** auto-refresh OAuth tokens — the backend does not currently sup
 | `sends` | `events(id)` | `GET /api/v1/sends/:id/events` | 0.7.0. Chain-backed timeline — created / viewed / downloaded / revoked each have a VAL block behind them (ADR 0074), re-derivable offline from an export. Scope `send.read`. |
 | `sends` | `revoke(id, {idempotencyKey})` | `POST /api/v1/sends/:id/revoke` | 0.7.0. Idempotent — an already-revoked send returns `already_revoked: true`, not an error. Emits a MUTATION `cancel`. Scope `send.revoke`. |
 | `documents` | `uploadInline(roomId, file, {idempotencyKey})` | `POST /api/v1/datarooms/:roomId/documents` | 0.7.0. One-call ingest — the bytes ride the request (base64) and the server drives presign→confirm. REST twin of the `document_upload` MCP tool (same carrier). Use `upload(...)` for large files. Scope `document.upload`. |
+| `mediations` | `open(params, {idempotencyKey})` | `POST /api/v1/mediations` | 0.7.0. Room + both parties + both Lane-A invitations in one call. Multi-row op — pass an idempotency key. A MEDIATION room cannot be closed until every party has accepted the latest resolution. |
+| `parties` | `list(roomId)` | `GET /api/v1/datarooms/:id/parties` | 0.7.0. |
+| `parties` | `create(roomId, params, {idempotencyKey})` | `POST /api/v1/datarooms/:id/parties` | 0.7.0. A party is a *side* (`internal` / `external`) — the unit document isolation is enforced against. |
+| `parties` | `update(roomId, partyId, params, {idempotencyKey})` | `PATCH /api/v1/datarooms/:id/parties/:partyId` | 0.7.0. Manage-tier; agent-reachable by delegation (`party.manage`). |
+| `parties` | `members(roomId, partyId)` | `GET …/parties/:partyId/members` | 0.7.0. |
+| `parties` | `addMember(roomId, partyId, {participant_id}, {idempotencyKey})` | `POST …/parties/:partyId/members` | 0.7.0. |
+| `parties` | `reassignMember(roomId, participantId, {target_party_id}, {idempotencyKey})` | `PATCH …/members/:participantId/reassign` | 0.7.0. Changes what the member can reach (party isolation is the document boundary). |
+| `closure` | `startExport(roomId, {idempotencyKey})` | `POST /api/v1/datarooms/:id/closure/export` | 0.7.0. Step 1 of 2 — the evidence export (async); poll with `exportStatus`. |
+| `closure` | `exportStatus(roomId, exportId)` | `GET …/closure/export/:exportId` | 0.7.0. |
+| `closure` | `close(roomId, {export_id}, {idempotencyKey})` | `POST /api/v1/datarooms/:id/closure/close` | 0.7.0. **IRREVERSIBLE** — destroys the per-dataroom key. Requires a *completed* export's id, so the evidence is in your hands first. MEDIATION rooms refuse with `409 resolution_consent_incomplete` until every party has accepted. |
 | `audit` | `export(dataroomId, {sinceSequenceNumber?, limit?})` | `GET /api/v1/datarooms/:id/audit/export` | Returns `AuditExportStream` (AsyncIterable + `.verify()` = pass-1 integrity replay). For the full VAL passes (lineage / scope / grounding / delegator authority), `await verifyValChain(...)` from the bundled `@val-protocol/chain-verifier` (0.7.x as of SDK 0.5.0 — async, browser-runnable, and including Pass 6 bytes-binding) and feed it the same rows. |
 
 ## Error handling

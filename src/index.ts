@@ -52,5 +52,33 @@ export type { DataroomCreateParams, DataroomListParams } from './resources/datar
 export type { FolderCreateParams } from './resources/folders.js';
 export type { UploadFile, UploadHandle, BatchResult, EvidenceBundle } from './resources/documents.js';
 export type { TaskProposeParams, TaskListParams } from './resources/tasks.js';
+export type {
+  SendCreateParams,
+  SendListParams,
+  SendDocumentInput,
+  SendSettings,
+  Send,
+  SendListPage,
+  SendEvent,
+  SendEvents,
+  SendRevokeResult,
+} from './resources/sends.js';
+export type {
+  MediationOpenParams,
+  MediationParty,
+  MediationOpened,
+} from './resources/mediations.js';
+export type {
+  PartyCreateParams,
+  PartyUpdateParams,
+  Party,
+  PartySide,
+  SystemRole,
+} from './resources/parties.js';
+export type {
+  ClosureExportStarted,
+  ClosureExportStatus,
+  VaultClosed,
+} from './resources/closure.js';
 export type { AuditExportParams } from './resources/audit.js';
 export { AuditExportStream } from './resources/audit.js';

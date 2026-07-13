@@ -23,6 +23,9 @@ import { TasksResource } from './resources/tasks.js';
 import { AuditResource } from './resources/audit.js';
 import { ResolutionsResource } from './resources/resolutions.js';
 import { SendsResource } from './resources/sends.js';
+import { MediationsResource } from './resources/mediations.js';
+import { PartiesResource } from './resources/parties.js';
+import { ClosureResource } from './resources/closure.js';
 
 export interface RigaClientOptions {
   /** API base URL, e.g. 'https://backend.riga.solutions' (host only — the SDK appends /api/v1/... paths). */
@@ -49,6 +52,12 @@ export class RigaClient {
   public readonly resolutions: ResolutionsResource;
   /** Tracked sends (share links) — create / list / get / events / revoke. REST+MCP parity family (ADR 0074). */
   public readonly sends: SendsResource;
+  /** Open a mediation (room + both parties + invitations) in one call. */
+  public readonly mediations: MediationsResource;
+  /** Negotiation sides and their members — the unit document isolation is enforced against. */
+  public readonly parties: PartiesResource;
+  /** Export the evidence, then seal the vault (IRREVERSIBLE, two-step by design). */
+  public readonly closure: ClosureResource;
 
   private readonly ctx: ClientContext;
 
@@ -68,5 +77,8 @@ export class RigaClient {
     this.audit = new AuditResource(this.ctx);
     this.resolutions = new ResolutionsResource(this.ctx);
     this.sends = new SendsResource(this.ctx);
+    this.mediations = new MediationsResource(this.ctx);
+    this.parties = new PartiesResource(this.ctx);
+    this.closure = new ClosureResource(this.ctx);
   }
 }

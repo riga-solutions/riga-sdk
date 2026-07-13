@@ -35,6 +35,17 @@ adheres to [Semantic Versioning](https://semver.org/).
   storage. The resulting `document.uploaded` chain event is attributed to the acting **agent**
   (`principal: agent:<sa>`), never relabelled as the human key-holder.
 
+- **`mediations.open()`** — POST /api/v1/mediations. Provisions a MEDIATION room, both parties and both
+  Lane-A invitations in one call (multi-row op — pass `{ idempotencyKey }`).
+- **`parties.*`** — `list` · `create` · `update` · `members` · `addMember` · `reassignMember`. A party is a
+  *side* (`internal` / `external`), the unit document isolation is enforced against. Manage-tier writes are
+  agent-reachable **by delegation** (`party.manage`), never by a hardcoded role. Party *deletion* is an acte
+  de disposition — it requires an express mandate and deliberately has no SDK surface.
+- **`closure.*`** — `startExport` · `exportStatus` · `close`. Closure is **irreversible** and deliberately
+  two-step: `close()` requires a *completed* export's id, so the evidence is in your hands before the vault's
+  key is destroyed. A MEDIATION room refuses closure with `409 resolution_consent_incomplete` until every
+  party has accepted the latest resolution.
+
 ### Changed
 
 - **Scopes for the send family are the canonical dot form** — `share.send`, `send.read`, `send.revoke`.
