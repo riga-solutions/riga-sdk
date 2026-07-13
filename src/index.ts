@@ -42,6 +42,12 @@ export type {
 } from './types.js';
 
 export type { RecordAppendParams, RecordAttestParams } from './resources/records.js';
+export type {
+  ResolutionProposeParams,
+  ResolutionProposeResponse,
+  ResolutionConsentStatus,
+  ResolutionPartyConsent,
+} from './resources/resolutions.js';
 export type { DataroomCreateParams, DataroomListParams } from './resources/datarooms.js';
 export type { FolderCreateParams } from './resources/folders.js';
 export type { UploadFile, UploadHandle, BatchResult, EvidenceBundle } from './resources/documents.js';

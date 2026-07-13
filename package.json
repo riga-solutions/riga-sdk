@@ -1,6 +1,6 @@
 {
   "name": "@riga-solutions/sdk",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "TypeScript SDK for the RIGA substrate. Typed client over the public REST API (/api/v1) — records, datarooms, tasks, documents, audit export, bytes-binding evidence — with built-in retry, error class hierarchy, and inline chain verification via @val-protocol/chain-verifier.",
   "license": "Apache-2.0",
   "author": "RIGA <hello@riga.solutions>",

@@ -90,6 +90,8 @@ V1 does **not** auto-refresh OAuth tokens — the backend does not currently sup
 | `records` | `append(params)` | `POST /api/v1/records` | Writes an `ai.draft.proposal` record. `Idempotency-Key` auto-set. |
 | `records` | `attest(params)` | `POST /api/v1/records/attest` | Writes attestation-class records. **Requires `task_id`** (VAL §9.2). `Idempotency-Key` auto-set. |
 | `records` | `read(record_id)` | `GET /api/v1/records/:id` | Returns the full `Record`, including the 7-field `envelope` on `ai.*` types. |
+| `resolutions` | `propose(params)` | `POST /api/v1/resolutions` | Drafts the multi-party resolution record + fans out per-party consent tasks (F5). `Idempotency-Key` supported. The consent *signature* is human-only (ceremony UI) — no API surface. |
+| `resolutions` | `consents(record_id, dataroom_id)` | `GET /api/v1/resolutions/:id/consents` | Per-party bond status; the instrument grade per party is legible (typed=A, webauthn=B, qualified=C). |
 | `datarooms` | `create({title, context?})` | `POST /api/v1/datarooms` | 0.3.0. Provisions a dataroom; returns its id. `Idempotency-Key` auto-set. |
 | `datarooms` | `get(id)` | `GET /api/v1/datarooms/:id` | 0.3.0. |
 | `datarooms` | `list({limit?, cursor?})` | `GET /api/v1/datarooms` | Cursor pagination. |

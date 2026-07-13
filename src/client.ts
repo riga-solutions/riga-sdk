@@ -21,6 +21,7 @@ import { FoldersResource } from './resources/folders.js';
 import { DocumentsResource } from './resources/documents.js';
 import { TasksResource } from './resources/tasks.js';
 import { AuditResource } from './resources/audit.js';
+import { ResolutionsResource } from './resources/resolutions.js';
 
 export interface RigaClientOptions {
   /** API base URL, e.g. 'https://backend.riga.solutions' (host only — the SDK appends /api/v1/... paths). */
@@ -44,6 +45,7 @@ export class RigaClient {
   public readonly documents: DocumentsResource;
   public readonly tasks: TasksResource;
   public readonly audit: AuditResource;
+  public readonly resolutions: ResolutionsResource;
 
   private readonly ctx: ClientContext;
 
@@ -61,5 +63,6 @@ export class RigaClient {
     this.documents = new DocumentsResource(this.ctx);
     this.tasks = new TasksResource(this.ctx);
     this.audit = new AuditResource(this.ctx);
+    this.resolutions = new ResolutionsResource(this.ctx);
   }
 }

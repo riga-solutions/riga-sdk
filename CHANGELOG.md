@@ -3,6 +3,19 @@
 All notable changes to `@riga-solutions/sdk` are documented here. This project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## 0.7.0
+
+### Added
+
+- `resolutions.propose(params)` — POST /api/v1/resolutions (F5 / ADR 0073): draft the multi-party
+  resolution record (a MUTATION rooted in a live task; grounding auto-threads) and fan out one consent
+  task per party. Multi-row op — pass `{ idempotencyKey }` for the L4 durable belt.
+- `resolutions.consents(recordId, dataroomId)` — GET /api/v1/resolutions/:id/consents: per-party bond
+  status with the instrument grade legible (typed = Profile A, webauthn = B, qualified alg = C) and the
+  CONSENT chain hash when bonded.
+- The consent **signature** deliberately has no SDK/API surface — it is a human-only bond performed in
+  the ceremony UI; the signer picks the instrument and the chain letter grades it.
+
 ## 0.6.0
 
 ### Added

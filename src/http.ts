@@ -82,6 +82,52 @@ export async function callApi<T>(
 }
 
 /**
+ * Raw JSON call for endpoints not yet in the generated client (regenerate the
+ * OpenAPI client to migrate them onto the typed path). Same error mapping +
+ * 429-retry semantics as callApi.
+ */
+export async function rawJson<T>(
+  ctx: ClientContext,
+  method: 'GET' | 'POST',
+  path: string,
+  opts: { body?: unknown; idempotencyKey?: string } = {},
+): Promise<T> {
+  let attempt = 0;
+  for (;;) {
+    let res: Response;
+    try {
+      res = await ctx.fetchImpl(`${ctx.baseUrl}${path}`, {
+        method,
+        headers: {
+          Authorization: ctx.authHeader,
+          ...(opts.body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+          ...(opts.idempotencyKey ? { 'Idempotency-Key': opts.idempotencyKey } : {}),
+        },
+        ...(opts.body !== undefined ? { body: JSON.stringify(opts.body) } : {}),
+      });
+    } catch (e) {
+      throw new RigaNetworkError((e as Error).message);
+    }
+    if (res.ok) {
+      return (await res.json()) as T;
+    }
+    let errBody: unknown = null;
+    try {
+      errBody = await res.json();
+    } catch {
+      /* non-JSON error body */
+    }
+    const err = parseRestError(res.status, errBody, res);
+    if (err instanceof RigaRateLimitError && attempt < ctx.maxRetries) {
+      attempt += 1;
+      await sleep((err.retryAfterSeconds || 1) * 1000);
+      continue;
+    }
+    throw err;
+  }
+}
+
+/**
  * Raw GET for the NDJSON audit export. Returns the raw body + the X-Next-Cursor
  * header (the generated client would try to JSON-parse a streamed body).
  */
