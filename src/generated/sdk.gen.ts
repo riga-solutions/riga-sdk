@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client/index.js';
 import { client } from './client.gen.js';
-import type { AuditV1ControllerChainData, AuditV1ControllerChainJobData, AuditV1ControllerChainJobErrors, AuditV1ControllerChainJobResponses, AuditV1ControllerChainResponses, AuditV1ControllerDeliveriesData, AuditV1ControllerDeliveriesResponses, AuditV1ControllerEventByHashData, AuditV1ControllerEventByHashErrors, AuditV1ControllerEventByHashResponses, AuditV1ControllerEventData, AuditV1ControllerEventErrors, AuditV1ControllerEventResponses, AuditV1ControllerEventsData, AuditV1ControllerEventsResponses, AuditV1ControllerExportData, AuditV1ControllerExportResponses, DataroomsV1ControllerCreateData, DataroomsV1ControllerCreateErrors, DataroomsV1ControllerCreateResponses, DataroomsV1ControllerGetData, DataroomsV1ControllerGetErrors, DataroomsV1ControllerGetResponses, DataroomsV1ControllerListData, DataroomsV1ControllerListResponses, DocumentsV1ControllerEvidenceBundleData, DocumentsV1ControllerEvidenceBundleErrors, DocumentsV1ControllerEvidenceBundleResponses, DocumentsV1ControllerReadData, DocumentsV1ControllerReadErrors, DocumentsV1ControllerReadResponses, FoldersV1ControllerCreateData, FoldersV1ControllerCreateErrors, FoldersV1ControllerCreateResponses, FoldersV1ControllerListData, FoldersV1ControllerListResponses, QaV1ControllerAnswerData, QaV1ControllerAnswerResponses, RecordsV1ControllerAppendData, RecordsV1ControllerAppendErrors, RecordsV1ControllerAppendResponses, RecordsV1ControllerAttestData, RecordsV1ControllerAttestResponses, RecordsV1ControllerReadData, RecordsV1ControllerReadErrors, RecordsV1ControllerReadResponses, RoomDocumentsV1ControllerConfirmData, RoomDocumentsV1ControllerConfirmErrors, RoomDocumentsV1ControllerConfirmResponses, RoomDocumentsV1ControllerListData, RoomDocumentsV1ControllerListResponses, RoomDocumentsV1ControllerPresignData, RoomDocumentsV1ControllerPresignErrors, RoomDocumentsV1ControllerPresignResponses, SendsV1ControllerCreateData, SendsV1ControllerCreateErrors, SendsV1ControllerCreateResponses, SendsV1ControllerEventsData, SendsV1ControllerEventsResponses, SendsV1ControllerGetData, SendsV1ControllerGetResponses, SendsV1ControllerRevokeData, SendsV1ControllerRevokeResponses, TasksV1ControllerListData, TasksV1ControllerListResponses, TasksV1ControllerProposeData, TasksV1ControllerProposeResponses, UsageV1ControllerUsageData, UsageV1ControllerUsageErrors, UsageV1ControllerUsageResponses } from './types.gen.js';
+import type { AuditV1ControllerChainData, AuditV1ControllerChainJobData, AuditV1ControllerChainJobErrors, AuditV1ControllerChainJobResponses, AuditV1ControllerChainResponses, AuditV1ControllerDeliveriesData, AuditV1ControllerDeliveriesResponses, AuditV1ControllerEventByHashData, AuditV1ControllerEventByHashErrors, AuditV1ControllerEventByHashResponses, AuditV1ControllerEventData, AuditV1ControllerEventErrors, AuditV1ControllerEventResponses, AuditV1ControllerEventsData, AuditV1ControllerEventsResponses, AuditV1ControllerExportData, AuditV1ControllerExportResponses, DataroomsV1ControllerCloseVaultData, DataroomsV1ControllerCloseVaultResponses, DataroomsV1ControllerClosureExportStatusData, DataroomsV1ControllerClosureExportStatusResponses, DataroomsV1ControllerCreateData, DataroomsV1ControllerCreateErrors, DataroomsV1ControllerCreateResponses, DataroomsV1ControllerGetData, DataroomsV1ControllerGetErrors, DataroomsV1ControllerGetResponses, DataroomsV1ControllerInviteParticipantData, DataroomsV1ControllerInviteParticipantResponses, DataroomsV1ControllerListData, DataroomsV1ControllerListResponses, DataroomsV1ControllerStartClosureExportData, DataroomsV1ControllerStartClosureExportResponses, DocumentsV1ControllerEvidenceBundleData, DocumentsV1ControllerEvidenceBundleErrors, DocumentsV1ControllerEvidenceBundleResponses, DocumentsV1ControllerReadData, DocumentsV1ControllerReadErrors, DocumentsV1ControllerReadResponses, FoldersV1ControllerCreateData, FoldersV1ControllerCreateErrors, FoldersV1ControllerCreateResponses, FoldersV1ControllerListData, FoldersV1ControllerListResponses, MediationsV1ControllerOpenData, MediationsV1ControllerOpenResponses, PartiesV1ControllerAddMemberData, PartiesV1ControllerAddMemberResponses, PartiesV1ControllerCreateData, PartiesV1ControllerCreateResponses, PartiesV1ControllerListData, PartiesV1ControllerListErrors, PartiesV1ControllerListResponses, PartiesV1ControllerMembersData, PartiesV1ControllerMembersResponses, PartiesV1ControllerReassignData, PartiesV1ControllerReassignResponses, PartiesV1ControllerUpdateData, PartiesV1ControllerUpdateErrors, PartiesV1ControllerUpdateResponses, QaV1ControllerAnswerData, QaV1ControllerAnswerResponses, QaV1ControllerReadThreadData, QaV1ControllerReadThreadErrors, QaV1ControllerReadThreadResponses, RecordsV1ControllerAppendData, RecordsV1ControllerAppendErrors, RecordsV1ControllerAppendResponses, RecordsV1ControllerAttestData, RecordsV1ControllerAttestResponses, RecordsV1ControllerReadData, RecordsV1ControllerReadErrors, RecordsV1ControllerReadResponses, ResolutionsV1ControllerConsentsData, ResolutionsV1ControllerConsentsResponses, ResolutionsV1ControllerProposeData, ResolutionsV1ControllerProposeErrors, ResolutionsV1ControllerProposeResponses, RoomDocumentsV1ControllerConfirmData, RoomDocumentsV1ControllerConfirmErrors, RoomDocumentsV1ControllerConfirmResponses, RoomDocumentsV1ControllerListData, RoomDocumentsV1ControllerListResponses, RoomDocumentsV1ControllerPresignData, RoomDocumentsV1ControllerPresignErrors, RoomDocumentsV1ControllerPresignResponses, RoomDocumentsV1ControllerUploadData, RoomDocumentsV1ControllerUploadResponses, RoomDocumentsV1ControllerUploadStatusData, RoomDocumentsV1ControllerUploadStatusResponses, SendsV1ControllerCreateData, SendsV1ControllerCreateErrors, SendsV1ControllerCreateResponses, SendsV1ControllerEventsData, SendsV1ControllerEventsResponses, SendsV1ControllerGetData, SendsV1ControllerGetResponses, SendsV1ControllerListData, SendsV1ControllerListResponses, SendsV1ControllerRevokeData, SendsV1ControllerRevokeResponses, TasksV1ControllerGetData, TasksV1ControllerGetErrors, TasksV1ControllerGetResponses, TasksV1ControllerListData, TasksV1ControllerListResponses, TasksV1ControllerProposeData, TasksV1ControllerProposeResponses, UsageV1ControllerUsageData, UsageV1ControllerUsageErrors, UsageV1ControllerUsageResponses } from './types.gen.js';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -19,12 +19,21 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 };
 
 /**
+ * List sends created by this principal (newest first)
+ */
+export const sendsV1ControllerList = <ThrowOnError extends boolean = false>(options: Options<SendsV1ControllerListData, ThrowOnError>): RequestResult<SendsV1ControllerListResponses, unknown, ThrowOnError> => (options.client ?? client).get<SendsV1ControllerListResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/sends',
+    ...options
+});
+
+/**
  * Create a tracked send (anonymous-share link)
  *
  * Encrypted file delivery via tokenized share URL. Returns the
  * public recipient URL + send id. Idempotency-Key header (24h cache) honored.
  *
- * Auth: API key with share:send or send:create scope.
+ * Auth: share.send scope (the legacy colon spellings share:send / send:create still resolve — canonicalScope).
  */
 export const sendsV1ControllerCreate = <ThrowOnError extends boolean = false>(options: Options<SendsV1ControllerCreateData, ThrowOnError>): RequestResult<SendsV1ControllerCreateResponses, SendsV1ControllerCreateErrors, ThrowOnError> => (options.client ?? client).post<SendsV1ControllerCreateResponses, SendsV1ControllerCreateErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
@@ -154,6 +163,17 @@ export const tasksV1ControllerPropose = <ThrowOnError extends boolean = false>(o
 });
 
 /**
+ * Read a single task by id
+ *
+ * Point-read of one task. The caller must hold can_view on the task (member of its party, its assignee, or its creator — e.g. a question the agent itself opened, ADR 0045). 404 if the agent cannot view it. Scope: task.read.
+ */
+export const tasksV1ControllerGet = <ThrowOnError extends boolean = false>(options: Options<TasksV1ControllerGetData, ThrowOnError>): RequestResult<TasksV1ControllerGetResponses, TasksV1ControllerGetErrors, ThrowOnError> => (options.client ?? client).get<TasksV1ControllerGetResponses, TasksV1ControllerGetErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/tasks/{id}',
+    ...options
+});
+
+/**
  * List datarooms the agent can view
  *
  * Datarooms where the calling agent holds can_view (ADR 0045). Keyset-paginated. Scope: dataroom.read.
@@ -187,6 +207,48 @@ export const dataroomsV1ControllerCreate = <ThrowOnError extends boolean = false
 export const dataroomsV1ControllerGet = <ThrowOnError extends boolean = false>(options: Options<DataroomsV1ControllerGetData, ThrowOnError>): RequestResult<DataroomsV1ControllerGetResponses, DataroomsV1ControllerGetErrors, ThrowOnError> => (options.client ?? client).get<DataroomsV1ControllerGetResponses, DataroomsV1ControllerGetErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/datarooms/{id}',
+    ...options
+});
+
+/**
+ * Invite a participant by email — Lane-A token bind (F2)
+ *
+ * Integrator-principal. system_role derives from the zone when omitted (F14: client→content_admin · external→user · owner→administrator) so callers never hit the zone-cap 400.
+ */
+export const dataroomsV1ControllerInviteParticipant = <ThrowOnError extends boolean = false>(options: Options<DataroomsV1ControllerInviteParticipantData, ThrowOnError>): RequestResult<DataroomsV1ControllerInviteParticipantResponses, unknown, ThrowOnError> => (options.client ?? client).post<DataroomsV1ControllerInviteParticipantResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{id}/participants/invite',
+    ...options
+});
+
+/**
+ * Start the closure archive export (F3, step 1 of 2)
+ *
+ * Returns { exportId, jobId }. Poll GET :id/closure/export/:exportId.
+ */
+export const dataroomsV1ControllerStartClosureExport = <ThrowOnError extends boolean = false>(options: Options<DataroomsV1ControllerStartClosureExportData, ThrowOnError>): RequestResult<DataroomsV1ControllerStartClosureExportResponses, unknown, ThrowOnError> => (options.client ?? client).post<DataroomsV1ControllerStartClosureExportResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{id}/closure/export',
+    ...options
+});
+
+/**
+ * Closure export status (F3)
+ */
+export const dataroomsV1ControllerClosureExportStatus = <ThrowOnError extends boolean = false>(options: Options<DataroomsV1ControllerClosureExportStatusData, ThrowOnError>): RequestResult<DataroomsV1ControllerClosureExportStatusResponses, unknown, ThrowOnError> => (options.client ?? client).get<DataroomsV1ControllerClosureExportStatusResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{id}/closure/export/{exportId}',
+    ...options
+});
+
+/**
+ * Close the vault — IRREVERSIBLE (F3, step 2 of 2)
+ *
+ * Body: { export_id } — the UUID returned by closure/export (v1 takes ONE identifier; the internal job_id is resolved server-side — finding F19).
+ */
+export const dataroomsV1ControllerCloseVault = <ThrowOnError extends boolean = false>(options: Options<DataroomsV1ControllerCloseVaultData, ThrowOnError>): RequestResult<DataroomsV1ControllerCloseVaultResponses, unknown, ThrowOnError> => (options.client ?? client).post<DataroomsV1ControllerCloseVaultResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{id}/closure/close',
     ...options
 });
 
@@ -316,6 +378,86 @@ export const foldersV1ControllerCreate = <ThrowOnError extends boolean = false>(
 });
 
 /**
+ * List parties the agent can view
+ */
+export const partiesV1ControllerList = <ThrowOnError extends boolean = false>(options: Options<PartiesV1ControllerListData, ThrowOnError>): RequestResult<PartiesV1ControllerListResponses, PartiesV1ControllerListErrors, ThrowOnError> => (options.client ?? client).get<PartiesV1ControllerListResponses, PartiesV1ControllerListErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{dataroomId}/parties',
+    ...options
+});
+
+/**
+ * Create a party (integrator-principal, F1)
+ *
+ * Integrator (colon `dataroom:create`) creates as the org-owner-context human provisioner. Emits governance.party_created on the VAL chain. The agent create path is the `party_create` MCP tool (delegation-gated, principal:agent). Body: { name, side }.
+ */
+export const partiesV1ControllerCreate = <ThrowOnError extends boolean = false>(options: Options<PartiesV1ControllerCreateData, ThrowOnError>): RequestResult<PartiesV1ControllerCreateResponses, unknown, ThrowOnError> => (options.client ?? client).post<PartiesV1ControllerCreateResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{dataroomId}/parties',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Update a party (agent, delegation-authorized)
+ *
+ * Updates name/color/organization. Authorized by scope.act ('classify'). Emits governance.party_updated on the VAL chain. Scope: party.manage.
+ */
+export const partiesV1ControllerUpdate = <ThrowOnError extends boolean = false>(options: Options<PartiesV1ControllerUpdateData, ThrowOnError>): RequestResult<PartiesV1ControllerUpdateResponses, PartiesV1ControllerUpdateErrors, ThrowOnError> => (options.client ?? client).patch<PartiesV1ControllerUpdateResponses, PartiesV1ControllerUpdateErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{dataroomId}/parties/{partyId}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * List a party’s members (agent, can_view)
+ *
+ * Members of a party the agent can view. A read — gated at can_view (cap_user), not the manager relation. Scope: dataroom.read.
+ */
+export const partiesV1ControllerMembers = <ThrowOnError extends boolean = false>(options: Options<PartiesV1ControllerMembersData, ThrowOnError>): RequestResult<PartiesV1ControllerMembersResponses, unknown, ThrowOnError> => (options.client ?? client).get<PartiesV1ControllerMembersResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{dataroomId}/parties/{partyId}/members',
+    ...options
+});
+
+/**
+ * Add a participant to a party (agent, delegation-authorized)
+ *
+ * Authorized by scope.act ('create'). Emits governance.party_member_added on the VAL chain. Scope: party.manage.
+ */
+export const partiesV1ControllerAddMember = <ThrowOnError extends boolean = false>(options: Options<PartiesV1ControllerAddMemberData, ThrowOnError>): RequestResult<PartiesV1ControllerAddMemberResponses, unknown, ThrowOnError> => (options.client ?? client).post<PartiesV1ControllerAddMemberResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{dataroomId}/parties/{partyId}/members',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Reassign a participant to another party (agent, delegation-authorized)
+ *
+ * Authorized by scope.act ('classify'). Emits governance.participant_reassigned on the VAL chain with the ACTOR (agent:<sa>), not the moved participant. Scope: party.manage.
+ */
+export const partiesV1ControllerReassign = <ThrowOnError extends boolean = false>(options: Options<PartiesV1ControllerReassignData, ThrowOnError>): RequestResult<PartiesV1ControllerReassignResponses, unknown, ThrowOnError> => (options.client ?? client).patch<PartiesV1ControllerReassignResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{dataroomId}/parties/{partyId}/members/{participantId}/reassign',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
  * List documents the agent can view
  *
  * Documents in the dataroom where the calling agent holds can_view (ADR 0045), optionally filtered by folder_id. Same FGA visibility a human gets. Scope: dataroom.read.
@@ -327,9 +469,20 @@ export const roomDocumentsV1ControllerList = <ThrowOnError extends boolean = fal
 });
 
 /**
+ * Upload a document in one call (agent-principal)
+ *
+ * Single-call ingest: the bytes ride the request (base64) and the server drives the presign→confirm chokepoint. The document.uploaded MUTATION is attributed to the acting agent (ADR 0060). For large files use presign → PUT → confirm. Scope: document.upload.
+ */
+export const roomDocumentsV1ControllerUpload = <ThrowOnError extends boolean = false>(options: Options<RoomDocumentsV1ControllerUploadData, ThrowOnError>): RequestResult<RoomDocumentsV1ControllerUploadResponses, unknown, ThrowOnError> => (options.client ?? client).post<RoomDocumentsV1ControllerUploadResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{roomId}/documents',
+    ...options
+});
+
+/**
  * Presign a single-file upload (step 1 of 2)
  *
- * Returns a presigned S3 PUT URL for direct upload + a fileId. Then PUT the bytes to the URL and call POST …/documents/confirm with the fileId. Integrator-principal: the file is recorded against the human who minted the key (uploaded_by). The SDK collapses presign→PUT→confirm into client.documents.upload(file). Scope: dataroom:upload.
+ * Returns a presigned S3 PUT URL for direct upload + a fileId. Then PUT the bytes to the URL and call POST …/documents/confirm with the fileId. The upload row is recorded against the human who minted the key (uploaded_by), and the async processor emits the chain MUTATION under the AGENT principal — the API key's service account MUST hold a live agent grant in the dataroom or processing FAILS (finding F20). confirm returns {status:"processing"}: poll GET …/documents/:fileId/status until ready|failed (failed carries upload_error). The SDK collapses presign→PUT→confirm into client.documents.upload(file). Scope: dataroom:upload.
  */
 export const roomDocumentsV1ControllerPresign = <ThrowOnError extends boolean = false>(options: Options<RoomDocumentsV1ControllerPresignData, ThrowOnError>): RequestResult<RoomDocumentsV1ControllerPresignResponses, RoomDocumentsV1ControllerPresignErrors, ThrowOnError> => (options.client ?? client).post<RoomDocumentsV1ControllerPresignResponses, RoomDocumentsV1ControllerPresignErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
@@ -357,6 +510,17 @@ export const roomDocumentsV1ControllerConfirm = <ThrowOnError extends boolean = 
 });
 
 /**
+ * Staged-upload status (F20 — surfaces async processing failures)
+ *
+ * Returns { upload_status: uploading|processing|ready|failed, upload_error? }. confirm answers "processing"; the chain MUTATION only exists once ready.
+ */
+export const roomDocumentsV1ControllerUploadStatus = <ThrowOnError extends boolean = false>(options: Options<RoomDocumentsV1ControllerUploadStatusData, ThrowOnError>): RequestResult<RoomDocumentsV1ControllerUploadStatusResponses, unknown, ThrowOnError> => (options.client ?? client).get<RoomDocumentsV1ControllerUploadStatusResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/datarooms/{roomId}/documents/{fileId}/status',
+    ...options
+});
+
+/**
  * Answer a Q&A thread
  *
  * Records the answer as a VAL MUTATION block rooted to the thread ASSIGNMENT. A doc-scoped thread becomes qa.answer.grounded (grounded_document_hashes REQUIRED). Scope: qa.propose.
@@ -369,4 +533,56 @@ export const qaV1ControllerAnswer = <ThrowOnError extends boolean = false>(optio
         'Content-Type': 'application/json',
         ...options.headers
     }
+});
+
+/**
+ * Read a Q&A thread (question + all answers)
+ *
+ * Returns the opening question and every answer, decrypted, in order. The caller must hold can_view on the thread task (e.g. a question the agent itself opened, ADR 0045 + record.thread edge); 404 otherwise. Each message is filtered to what the agent may view. Scope: qa.read.
+ */
+export const qaV1ControllerReadThread = <ThrowOnError extends boolean = false>(options: Options<QaV1ControllerReadThreadData, ThrowOnError>): RequestResult<QaV1ControllerReadThreadResponses, QaV1ControllerReadThreadErrors, ThrowOnError> => (options.client ?? client).get<QaV1ControllerReadThreadResponses, QaV1ControllerReadThreadErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/qa/threads/{id}',
+    ...options
+});
+
+/**
+ * Open a dispute-mediation room (composite: room + parties + both invitations)
+ *
+ * Creates a MEDIATION-context dataroom owned by the key provisioner, with the collaborative two-party governance template (seller internal / buyer external), and sends Lane-A email invitations to both parties with zone-correct roles. Party emails are supplied by the caller — RIGA never extracts contacts from invoice content. Multi-row: send an Idempotency-Key header (L4 belt). Scope: dataroom:create.
+ */
+export const mediationsV1ControllerOpen = <ThrowOnError extends boolean = false>(options: Options<MediationsV1ControllerOpenData, ThrowOnError>): RequestResult<MediationsV1ControllerOpenResponses, unknown, ThrowOnError> => (options.client ?? client).post<MediationsV1ControllerOpenResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/mediations',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Draft a resolution (agent-principal)
+ *
+ * Appends a resolution record (MUTATION rooted in the live task ASSIGNMENT, grounding auto-threaded §1.9) and fans out one consent task per bond-eligible party. The consent SIGNATURE itself is human-only and has no API surface. Scope: resolution.propose.
+ */
+export const resolutionsV1ControllerPropose = <ThrowOnError extends boolean = false>(options: Options<ResolutionsV1ControllerProposeData, ThrowOnError>): RequestResult<ResolutionsV1ControllerProposeResponses, ResolutionsV1ControllerProposeErrors, ThrowOnError> => (options.client ?? client).post<ResolutionsV1ControllerProposeResponses, ResolutionsV1ControllerProposeErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/resolutions',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Per-party bond status of a resolution
+ *
+ * Who has/hasn’t accepted the resolution, with the instrument grade per party (typed = A, webauthn = B, qualified = C) and the CONSENT chain hash when bonded. Scope: record.read.
+ */
+export const resolutionsV1ControllerConsents = <ThrowOnError extends boolean = false>(options: Options<ResolutionsV1ControllerConsentsData, ThrowOnError>): RequestResult<ResolutionsV1ControllerConsentsResponses, unknown, ThrowOnError> => (options.client ?? client).get<ResolutionsV1ControllerConsentsResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/resolutions/{recordId}/consents',
+    ...options
 });

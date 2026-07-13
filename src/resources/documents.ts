@@ -21,6 +21,7 @@ import {
   roomDocumentsV1ControllerPresign,
 } from '../generated/index.js';
 import { ClientContext, callApi, GeneratedFn } from '../http.js';
+import { roomDocumentsV1ControllerUpload } from '../generated/index.js';
 import { RigaNetworkError } from '../errors.js';
 
 export interface UploadFile {
@@ -159,6 +160,40 @@ export class DocumentsResource {
    * offline. Independently hash `document_bytes_base64`; do not trust
    * `content_hash` as the bytes proof (it is a DEK-keyed HMAC).
    */
+  /**
+   * Upload a document in ONE call — the bytes ride the request (base64) and the server drives
+   * the presign→confirm chokepoint. Added in SDK 0.7.0 (ADR 0074): `document.upload` is an
+   * agent-capable verb, so it ships on REST *and* MCP — this is the REST twin of the
+   * `document_upload` MCP tool, delegating to the same server-side carrier.
+   *
+   * Use {@link upload} for large files (it streams the bytes straight to storage). Scope:
+   * `document.upload` (the legacy colon `dataroom:upload` still resolves).
+   *
+   * The resulting `document.uploaded` chain event is attributed to the ACTING AGENT when an
+   * agent drives it (`principal: agent:<sa>`), not relabelled as the human key-holder.
+   */
+  async uploadInline(
+    dataroomId: string,
+    file: { filename: string; mimeType: string; contentBase64: string; folderId?: string; fulfillsTaskId?: string },
+    opts: { idempotencyKey?: string } = {},
+  ): Promise<{ status: 'processing'; file_id: string }> {
+    return callApi<{ status: 'processing'; file_id: string }>(
+      this.ctx,
+      roomDocumentsV1ControllerUpload as unknown as GeneratedFn,
+      {
+        path: { roomId: dataroomId },
+        body: {
+          filename: file.filename,
+          mime_type: file.mimeType,
+          content_base64: file.contentBase64,
+          ...(file.folderId ? { folder_id: file.folderId } : {}),
+          ...(file.fulfillsTaskId ? { fulfills_task_id: file.fulfillsTaskId } : {}),
+        },
+      },
+      opts.idempotencyKey,
+    );
+  }
+
   async evidenceBundle(documentId: string): Promise<EvidenceBundle> {
     return callApi<EvidenceBundle>(
       this.ctx,

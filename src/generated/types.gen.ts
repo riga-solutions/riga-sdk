@@ -257,6 +257,58 @@ export type CreateFolderDto = {
     position?: number;
 };
 
+export type CreatePartyDto = {
+    /**
+     * Name of the party/group
+     */
+    name: string;
+    /**
+     * Side: internal or external
+     */
+    side: 'internal' | 'external';
+    /**
+     * Optional organization ID to link this party to
+     */
+    organization_id?: string;
+    /**
+     * Color for the party badge (hex code)
+     */
+    color?: string;
+    /**
+     * Default system_role suggested in the invite-flow dropdown for new participants in this party. Constrained to the migration-385 enum. When omitted, the service derives it from `side` (internal → 'administrator', external → 'user').
+     */
+    default_system_role?: 'read_only' | 'read_print' | 'user' | 'content_admin' | 'administrator';
+};
+
+export type UpdatePartyDto = {
+    /**
+     * Name of the party/group
+     */
+    name?: string;
+    /**
+     * Optional organization ID to link this party to
+     */
+    organization_id?: string;
+    /**
+     * Color for the party badge (hex code)
+     */
+    color?: string;
+};
+
+export type AddPartyMemberDto = {
+    /**
+     * Participant ID to add to the party
+     */
+    participant_id: string;
+};
+
+export type ReassignPartyMemberDto = {
+    /**
+     * The ID of the party to reassign the participant to
+     */
+    target_party_id: string;
+};
+
 export type PresignUploadRequestDto = {
     /**
      * Original filename
@@ -346,6 +398,56 @@ export type AnswerQaV1Dto = {
      * 64-hex content_hash of source documents. REQUIRED for a doc-scoped thread (qa.answer.grounded); each must match a live document the agent has read.
      */
     grounded_document_hashes?: Array<string>;
+};
+
+export type MediationPartyDto = {
+    /**
+     * Contact email — receives the Lane-A invitation.
+     */
+    email: string;
+    /**
+     * Display name for the party group (e.g. company name).
+     */
+    name?: string;
+};
+
+export type OpenMediationV1Dto = {
+    /**
+     * Opaque dispute reference (e.g. the contested invoice number). Stored as content — RIGA does not interpret it.
+     */
+    invoice_ref: string;
+    /**
+     * Room title. Default: "Médiation <invoice_ref>".
+     */
+    title?: string;
+    description?: string;
+    /**
+     * The seller — joins the INTERNAL party.
+     */
+    seller: MediationPartyDto;
+    /**
+     * The buyer — joins the EXTERNAL party.
+     */
+    buyer: MediationPartyDto;
+};
+
+export type ProposeResolutionV1Dto = {
+    [key: string]: unknown;
+};
+
+export type SendsV1ControllerListData = {
+    body?: never;
+    path?: never;
+    query: {
+        status: string;
+        limit: string;
+        cursor: string;
+    };
+    url: '/api/v1/sends';
+};
+
+export type SendsV1ControllerListResponses = {
+    200: unknown;
 };
 
 export type SendsV1ControllerCreateData = {
@@ -585,6 +687,29 @@ export type TasksV1ControllerProposeResponses = {
     201: unknown;
 };
 
+export type TasksV1ControllerGetData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/tasks/{id}';
+};
+
+export type TasksV1ControllerGetErrors = {
+    /**
+     * Not found or not viewable.
+     */
+    404: unknown;
+};
+
+export type TasksV1ControllerGetResponses = {
+    /**
+     * The task.
+     */
+    200: unknown;
+};
+
 export type DataroomsV1ControllerListData = {
     body?: never;
     path?: never;
@@ -646,6 +771,62 @@ export type DataroomsV1ControllerGetResponses = {
      * Dataroom metadata.
      */
     200: unknown;
+};
+
+export type DataroomsV1ControllerInviteParticipantData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{id}/participants/invite';
+};
+
+export type DataroomsV1ControllerInviteParticipantResponses = {
+    /**
+     * Invitation sent.
+     */
+    201: unknown;
+};
+
+export type DataroomsV1ControllerStartClosureExportData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{id}/closure/export';
+};
+
+export type DataroomsV1ControllerStartClosureExportResponses = {
+    201: unknown;
+};
+
+export type DataroomsV1ControllerClosureExportStatusData = {
+    body?: never;
+    path: {
+        id: string;
+        exportId: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{id}/closure/export/{exportId}';
+};
+
+export type DataroomsV1ControllerClosureExportStatusResponses = {
+    200: unknown;
+};
+
+export type DataroomsV1ControllerCloseVaultData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{id}/closure/close';
+};
+
+export type DataroomsV1ControllerCloseVaultResponses = {
+    201: unknown;
 };
 
 export type AuditV1ControllerExportData = {
@@ -892,6 +1073,120 @@ export type FoldersV1ControllerCreateResponses = {
     201: unknown;
 };
 
+export type PartiesV1ControllerListData = {
+    body?: never;
+    path: {
+        dataroomId: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{dataroomId}/parties';
+};
+
+export type PartiesV1ControllerListErrors = {
+    /**
+     * Agent lacks can_view on the dataroom.
+     */
+    403: unknown;
+};
+
+export type PartiesV1ControllerListResponses = {
+    /**
+     * Party list.
+     */
+    200: unknown;
+};
+
+export type PartiesV1ControllerCreateData = {
+    body: CreatePartyDto;
+    path: {
+        dataroomId: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{dataroomId}/parties';
+};
+
+export type PartiesV1ControllerCreateResponses = {
+    /**
+     * Party created.
+     */
+    201: unknown;
+};
+
+export type PartiesV1ControllerUpdateData = {
+    body: UpdatePartyDto;
+    path: {
+        dataroomId: string;
+        partyId: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{dataroomId}/parties/{partyId}';
+};
+
+export type PartiesV1ControllerUpdateErrors = {
+    /**
+     * Party not in this dataroom.
+     */
+    404: unknown;
+};
+
+export type PartiesV1ControllerUpdateResponses = {
+    /**
+     * Party updated.
+     */
+    200: unknown;
+};
+
+export type PartiesV1ControllerMembersData = {
+    body?: never;
+    path: {
+        dataroomId: string;
+        partyId: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{dataroomId}/parties/{partyId}/members';
+};
+
+export type PartiesV1ControllerMembersResponses = {
+    /**
+     * Party members.
+     */
+    200: unknown;
+};
+
+export type PartiesV1ControllerAddMemberData = {
+    body: AddPartyMemberDto;
+    path: {
+        dataroomId: string;
+        partyId: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{dataroomId}/parties/{partyId}/members';
+};
+
+export type PartiesV1ControllerAddMemberResponses = {
+    /**
+     * Member added.
+     */
+    201: unknown;
+};
+
+export type PartiesV1ControllerReassignData = {
+    body: ReassignPartyMemberDto;
+    path: {
+        dataroomId: string;
+        participantId: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{dataroomId}/parties/{partyId}/members/{participantId}/reassign';
+};
+
+export type PartiesV1ControllerReassignResponses = {
+    /**
+     * Member reassigned.
+     */
+    200: unknown;
+};
+
 export type RoomDocumentsV1ControllerListData = {
     body?: never;
     path: {
@@ -911,6 +1206,22 @@ export type RoomDocumentsV1ControllerListResponses = {
      * Document list.
      */
     200: unknown;
+};
+
+export type RoomDocumentsV1ControllerUploadData = {
+    body?: never;
+    path: {
+        roomId: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{roomId}/documents';
+};
+
+export type RoomDocumentsV1ControllerUploadResponses = {
+    /**
+     * Accepted — processing async
+     */
+    201: unknown;
 };
 
 export type RoomDocumentsV1ControllerPresignData = {
@@ -967,6 +1278,20 @@ export type RoomDocumentsV1ControllerConfirmResponses = {
 
 export type RoomDocumentsV1ControllerConfirmResponse = RoomDocumentsV1ControllerConfirmResponses[keyof RoomDocumentsV1ControllerConfirmResponses];
 
+export type RoomDocumentsV1ControllerUploadStatusData = {
+    body?: never;
+    path: {
+        roomId: string;
+        fileId: string;
+    };
+    query?: never;
+    url: '/api/v1/datarooms/{roomId}/documents/{fileId}/status';
+};
+
+export type RoomDocumentsV1ControllerUploadStatusResponses = {
+    200: unknown;
+};
+
 export type QaV1ControllerAnswerData = {
     body: AnswerQaV1Dto;
     path: {
@@ -981,4 +1306,80 @@ export type QaV1ControllerAnswerResponses = {
      * Answer recorded.
      */
     201: unknown;
+};
+
+export type QaV1ControllerReadThreadData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/qa/threads/{id}';
+};
+
+export type QaV1ControllerReadThreadErrors = {
+    /**
+     * Not found or not viewable.
+     */
+    404: unknown;
+};
+
+export type QaV1ControllerReadThreadResponses = {
+    /**
+     * The thread.
+     */
+    200: unknown;
+};
+
+export type MediationsV1ControllerOpenData = {
+    body: OpenMediationV1Dto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/mediations';
+};
+
+export type MediationsV1ControllerOpenResponses = {
+    /**
+     * Mediation room opened, both invitations sent.
+     */
+    201: unknown;
+};
+
+export type ResolutionsV1ControllerProposeData = {
+    body: ProposeResolutionV1Dto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/resolutions';
+};
+
+export type ResolutionsV1ControllerProposeErrors = {
+    /**
+     * Insufficient scope or FGA capability.
+     */
+    403: unknown;
+};
+
+export type ResolutionsV1ControllerProposeResponses = {
+    /**
+     * Resolution drafted, consent tasks fanned out.
+     */
+    201: unknown;
+};
+
+export type ResolutionsV1ControllerConsentsData = {
+    body?: never;
+    path: {
+        recordId: string;
+    };
+    query: {
+        dataroom_id: string;
+    };
+    url: '/api/v1/resolutions/{recordId}/consents';
+};
+
+export type ResolutionsV1ControllerConsentsResponses = {
+    /**
+     * Consent status.
+     */
+    200: unknown;
 };

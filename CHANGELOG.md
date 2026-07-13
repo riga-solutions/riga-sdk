@@ -16,6 +16,47 @@ adheres to [Semantic Versioning](https://semver.org/).
 - The consent **signature** deliberately has no SDK/API surface — it is a human-only bond performed in
   the ceremony UI; the signer picks the instrument and the chain letter grades it.
 
+- **`sends.*` — the tracked-send family, new to the SDK** (ADR 0074). The send verbs became a REST+MCP
+  **parity family** on 2026-07-13: every operation an agent can drive over MCP is now reachable over
+  REST, and both transports delegate to the same server-side carrier.
+  - `sends.create(params, { idempotencyKey })` — POST /api/v1/sends. Multi-row op (1 request → N
+    recipients); pass an idempotency key for the L4 durable belt.
+  - `sends.list({ status, limit, cursor })` — GET /api/v1/sends. **New endpoint** — the REST door that
+    previously existed only as an MCP tool.
+  - `sends.get(id)` — GET /api/v1/sends/:id.
+  - `sends.events(id)` — GET /api/v1/sends/:id/events. Chain-backed: created / viewed / downloaded /
+    revoked each have a VAL block behind them, re-derivable offline from an export.
+  - `sends.revoke(id, { idempotencyKey })` — POST /api/v1/sends/:id/revoke. Idempotent (an
+    already-revoked send returns `already_revoked: true`, not an error) and emits a MUTATION `cancel`.
+- `documents.uploadInline(dataroomId, file, { idempotencyKey })` — POST
+  /api/v1/datarooms/:roomId/documents. One-call ingest (bytes ride the request as base64); the server
+  drives the presign→confirm chokepoint. The REST twin of the `document_upload` MCP tool, delegating to
+  the same carrier. Use `documents.upload(...)` for large files — it streams the bytes straight to
+  storage. The resulting `document.uploaded` chain event is attributed to the acting **agent**
+  (`principal: agent:<sa>`), never relabelled as the human key-holder.
+
+### Changed
+
+- **Scopes for the send family are the canonical dot form** — `share.send`, `send.read`, `send.revoke`.
+  The legacy colon spellings (`share:send`, `send:create`, `send:read`, `send:revoke`) and
+  `dataroom:upload` still resolve server-side as deprecated aliases, so **existing integrator keys keep
+  working with no change**. They are no longer advertised in OAuth discovery, and new consents request
+  the dot form.
+- `@val-protocol/chain-verifier` pin `^0.9.0` → `^0.10.0`. On 0.x, a caret pins the minor, so `^0.9.0`
+  silently excluded 0.10.0 — which reports the **floor** `conformanceProfile` (a behaviour change for
+  mixed chains, previously max), plus `profilesPresent`, `authorityCarriers`, and honest `unattested`
+  key-binding (ADR 0068).
+
+### Evidence (what the chain now records for a send — ADR 0074)
+
+A send is no longer a database row the chain cannot prove. Each recipient token co-mints an
+**ASSIGNMENT** (the share token IS a delegation instrument, scoped `read`/`view`/`acknowledge` with the
+expiry as `win.not_after`); the send itself is a **COMMUNICATION** block; each recipient open is an
+**ACCESS** block; the first-view receipt is a **MUTATION `acknowledge`**; a revocation is a **MUTATION
+`cancel`**. Expiry is enforced by the substrate against the chain, not merely by a database predicate.
+Verified live 2026-07-13 with the published `@val-protocol/chain-verifier`: integrity / lineage / scope /
+grounding / authority all green.
+
 ## 0.6.0
 
 ### Added
