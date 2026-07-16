@@ -1,7 +1,7 @@
 {
   "name": "@riga-solutions/sdk",
   "version": "0.7.0",
-  "description": "TypeScript SDK for the RIGA substrate. Typed client over the public REST API (/api/v1) \u2014 records, datarooms, tasks, documents, audit export, bytes-binding evidence \u2014 with built-in retry, error class hierarchy, and inline chain verification via @val-protocol/chain-verifier.",
+  "description": "TypeScript SDK for the RIGA substrate. Typed client over the public REST API (/api/v1) — records, datarooms, tasks, documents, audit export, bytes-binding evidence — with built-in retry, error class hierarchy, and inline chain verification via @val-protocol/chain-verifier.",
   "license": "Apache-2.0",
   "author": "RIGA <hello@riga.solutions>",
   "type": "module",
@@ -46,7 +46,7 @@
     "generate": "openapi-ts -i ./openapi.json -o src/generated -c @hey-api/client-fetch && node scripts/patch-generated-esm.mjs"
   },
   "dependencies": {
-    "@val-protocol/chain-verifier": "^0.10.0"
+    "@val-protocol/chain-verifier": "^0.11.2"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.98.2",
