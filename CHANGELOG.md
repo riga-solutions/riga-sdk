@@ -3,6 +3,30 @@
 All notable changes to `@riga-solutions/sdk` are documented here. This project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## 0.8.0
+
+### Changed
+
+- **Verifier pin `@val-protocol/chain-verifier` `^0.10.0` → `^0.11.2`.** No SDK API change: every
+  signature, resource, and return type is identical to 0.7.0. This is a minor rather than a patch
+  because a caret pin on a `0.x` range is frozen at its minor — `^0.10.0` cannot reach `0.11.x` — so
+  0.7.0 resolved the verifier to `0.10.0` and the report `audit.export(...).verify()` returns changes
+  observably for consumers who upgrade. The cumulative surface inherited from `0.10.0`:
+  - **`0.11.1` — report-correctness fix, the reason to take this release.** Under the `0.10.0` floor
+    model, every successful action-block lineage walk added `'A'` to the profile set. On a cleanly
+    B- or C-rooted chain containing *any* action block, that dragged `conformanceProfile` down to
+    `'A'` and stamped a phantom `'A'` into `profilesPresent` — for a chain with no A root at all.
+    Roots now classify themselves in their own ASSIGNMENT iteration and the walk contributes no
+    profile. **If you verify a Profile-B chain through this SDK, 0.7.0 under-reports its floor.**
+    Chains whose floor is genuinely `'A'` (any unsigned root) are unaffected.
+  - **`0.11.0` — additive.** `ValPersonalAttestation` + `personalBindingChallenge` +
+    `verifyPersonalAttestation` (the personal-scope twin of the org-root self-attestation, org-free
+    per §5.2); `consentBonds` report itemization surfacing each §4.3 CONSENT bond as
+    `{ sequenceNumber, alg, profile, signatureValid }`; and qualified CONSENT signatures now follow
+    the delegation discipline instead of being fed to the WebAuthn verifier (a spec-valid Profile-C
+    bond no longer reports `signature: red`).
+  - **`0.11.2` — documentation only**, no functional change.
+
 ## 0.7.0
 
 ### Added
